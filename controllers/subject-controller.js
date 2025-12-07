@@ -55,8 +55,8 @@ export async function getStudents(req, res, next) {
 
 export async function addnewCourseandStudent(req, res) {
     try {
-        const courseId = parseInt(req.params.courseId);
-        const studentId = parseInt(req.params.studentId);
+        const courseId = parseInt(req.body.course_id); //.course_id ให้ตรงกับที่ user ส่งมา ดูเวลา get ใน postman ก็ได้ ที่ body
+        const studentId = parseInt(req.body.student_id); //const courseId = parseInt(req.params.courseId);  const studentId = parseInt(req.params.studentId); รับที่ parameter เวลา post
         const grades = parseFloat(req.body.grade);
 
         if (isNaN(courseId) || isNaN(studentId)) {
