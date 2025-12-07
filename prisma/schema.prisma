@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+}
+
+model course_student {
+  course_id  Int      @db.UnsignedTinyInt
+  student_id Int      @db.UnsignedTinyInt
+  grade      Float
+  courses    courses  @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "course_student_courses_id_fk")
+  students   students @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "course_student_students_id_fk")
+
+  @@id([course_id, student_id])
+  @@index([course_id], map: "idx_fk_course_id")
+  @@index([student_id], map: "idx_fk_student_id")
+}
+
+model courses {
+  id             Int              @id @unique @default(autoincrement()) @db.UnsignedTinyInt
+  subject_id     Int
+  year           Int              @db.Year
+  subjects       subjects         @relation(fields: [subject_id], references: [id])
+  course_student course_student[]
+
+  @@index([subject_id], map: "idx_fk_subject_id")
+}
+
+model students {
+  id             Int              @id @unique @default(autoincrement()) @db.UnsignedTinyInt
+  name           String           @db.VarChar(40)
+  course_student course_student[]
+}
+
+model subjects {
+  id           Int    @id @unique @default(autoincrement()) @db.UnsignedTinyInt
+  subject_code String @unique @db.Char(6)
+  title        String @db.VarChar(40)
+  credit       Float  @default(3)
+  courses      courses[]
+}
