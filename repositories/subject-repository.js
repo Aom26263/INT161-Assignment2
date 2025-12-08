@@ -54,11 +54,11 @@ export async function updateCourseStudent(courseId, studentId, grades) {
         where: {
             course_id_student_id: {
                 course_id: courseId,
-                student_id: studentId
+                student_id: studentId // เรียกข้อมูลเฉยๆ
             }
         },
         data: {
-            grade: grades
+            grade: grades //update ข้อมูลอะไรมาไว้ตรงนี้
         }
     })
 }
